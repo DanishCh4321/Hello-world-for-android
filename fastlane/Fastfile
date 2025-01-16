@@ -1,0 +1,22 @@
+default_platform(:android)  
+
+platform :android do  
+  desc "Deploy to Play Store Beta"  
+  lane :deploy do  
+    gradle(  
+      task: "clean assembleRelease",  
+      properties: {  
+        "android.injected.signing.store.file" => "release.keystore",  
+        "android.injected.signing.store.password" => ENV["KEYSTORE_PASSWORD"],  
+        "android.injected.signing.key.alias" => ENV["KEY_ALIAS"],  
+        "android.injected.signing.key.password" => ENV["KEY_PASSWORD"]  
+      }  
+    )  
+    
+    upload_to_play_store(  
+      track: 'beta',  
+      release_status: 'draft',  
+      aab: '../app/build/outputs/bundle/release/app-release.aab'  
+    )  
+  end  
+end

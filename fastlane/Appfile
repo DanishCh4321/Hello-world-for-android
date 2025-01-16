@@ -1,0 +1,2 @@
+json_key_file("play-store-config.json")  
+package_name("com.example.helloworldandroid")
